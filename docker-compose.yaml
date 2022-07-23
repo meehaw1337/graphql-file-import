@@ -11,5 +11,15 @@ services:
       POSTGRES_PASSWORD: pgpass
       POSTGRES_DB: postgres
 
+  db-test:
+    image: postgres:14-alpine
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB: postgres
+
 volumes:
   db_data:
