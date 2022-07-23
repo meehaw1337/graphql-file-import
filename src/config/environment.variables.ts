@@ -1,11 +1,18 @@
 import { plainToInstance } from 'class-transformer';
 import {
   IsBoolean,
+  IsEnum,
   IsInt,
   IsOptional,
   IsString,
   validateSync,
 } from 'class-validator';
+
+export enum Environment {
+  PROD = 'prod',
+  DEV = 'dev',
+  TEST = 'test',
+}
 
 export class EnvironmentVariables {
   @IsString()
@@ -31,7 +38,11 @@ export class EnvironmentVariables {
   IMPORT_BATCH_SIZE = 1000;
 
   @IsBoolean()
-  DEBUG: boolean;
+  @IsOptional()
+  DEBUG = false;
+
+  @IsEnum(Environment)
+  ENV: Environment;
 }
 
 export function validate(config: Record<string, unknown>) {
