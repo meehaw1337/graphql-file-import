@@ -24,7 +24,7 @@ export class UserResolver {
     @Parent() user: User,
     @Context('teamsLoader') teamsLoader: DataLoader<string, Team>,
   ): Promise<Team> {
-    const { teamName } = user;
-    return teamsLoader.load(teamName);
+    const { teamId } = user;
+    return teamsLoader.load(teamId);
   }
 }

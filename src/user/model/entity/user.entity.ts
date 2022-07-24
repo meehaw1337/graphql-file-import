@@ -1,15 +1,18 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TeamEntity } from './team.entity';
 
 @Entity()
 export class UserEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column()
   firstName: string;
 
   @Column()
   lastName: string;
 
-  @PrimaryColumn()
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -19,5 +22,5 @@ export class UserEntity {
   team: TeamEntity;
 
   @Column()
-  teamName: string;
+  teamId: string;
 }

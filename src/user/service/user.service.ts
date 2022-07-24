@@ -5,6 +5,7 @@ import { In, Repository } from 'typeorm';
 import { User } from '../model/user.model';
 import { CreateUserInterface } from '../model/interface/create-user.interface';
 import { TeamEntity } from '../model/entity/team.entity';
+import { generateUuid } from '../../file-import/util/generate-uuid.util';
 
 @Injectable()
 export class UserService {
@@ -19,8 +20,8 @@ export class UserService {
     return entities.map((entity) => new User(entity));
   }
 
-  async findByTeamNames(teamNames: string[]): Promise<User[]> {
-    const entities = await this.repository.findBy({ teamName: In(teamNames) });
+  async findByTeamIds(teamIds: string[]): Promise<User[]> {
+    const entities = await this.repository.findBy({ teamId: In(teamIds) });
 
     return entities.map((entity) => new User(entity));
   }
@@ -35,6 +36,7 @@ export class UserService {
       entity.roleDescription = user.roleDescription;
       entity.team = new TeamEntity();
       entity.team.name = user.teamName;
+      entity.team.id = generateUuid(user.teamName);
 
       return entity;
     });

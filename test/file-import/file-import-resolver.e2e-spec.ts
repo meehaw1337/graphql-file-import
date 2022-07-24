@@ -45,7 +45,7 @@ describe('FileImportResolver E2E', () => {
       .attach('0', file)
       .expect(200);
 
-    const userEntities = await userRepository.find();
+    const userEntities = await userRepository.find({ relations: ['team'] });
     expect(userEntities).toMatchObject(expectedSavedUserEntities);
   });
 

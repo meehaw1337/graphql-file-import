@@ -4,6 +4,9 @@ import { UserEntity } from './entity/user.entity';
 
 @ObjectType()
 export class User {
+  @Field(() => ID)
+  id: string;
+
   @Field(() => String)
   firstName: string;
 
@@ -19,14 +22,15 @@ export class User {
   @Field(() => Team)
   team: Team;
 
-  teamName: string;
+  teamId: string;
 
   constructor(entity: UserEntity) {
+    this.id = entity.id;
     this.firstName = entity.firstName;
     this.lastName = entity.lastName;
     this.email = entity.email;
     this.roleDescription = entity.roleDescription;
-    this.teamName = entity.teamName;
+    this.teamId = entity.teamId;
     if (entity.team) {
       this.team = new Team(entity.team);
     }

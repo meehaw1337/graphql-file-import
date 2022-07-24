@@ -4,11 +4,11 @@ import { Team } from '../model/team.model';
 import { keyBy } from 'lodash';
 
 export function createTeamsDataLoader(service: TeamService) {
-  return new DataLoader<string, Team>(async (teamNames: string[]) => {
-    const teams = await service.findByNames(teamNames);
+  return new DataLoader<string, Team>(async (teamIds: string[]) => {
+    const teams = await service.findByIds(teamIds);
 
-    const teamMap = keyBy(teams, (team) => team.name);
+    const teamMap = keyBy(teams, (team) => team.id);
 
-    return teamNames.map((teamName) => teamMap[teamName]);
+    return teamIds.map((id) => teamMap[id]);
   });
 }

@@ -4,11 +4,11 @@ import { UserService } from '../service/user.service';
 import { User } from '../model/user.model';
 
 export function createUsersDataLoader(service: UserService) {
-  return new DataLoader<string, User[]>(async (teamNames: string[]) => {
-    const users = await service.findByTeamNames(teamNames);
+  return new DataLoader<string, User[]>(async (teamIds: string[]) => {
+    const users = await service.findByTeamIds(teamIds);
 
-    const usersMap = groupBy(users, (user) => user.teamName);
+    const usersMap = groupBy(users, (user) => user.teamId);
 
-    return teamNames.map((teamName) => usersMap[teamName]);
+    return teamIds.map((teamName) => usersMap[teamName]);
   });
 }

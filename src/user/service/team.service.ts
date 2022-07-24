@@ -17,8 +17,8 @@ export class TeamService {
     return entities.map((entity) => new Team(entity));
   }
 
-  async findByNames(names: string[]): Promise<Team[]> {
-    const entities = await this.repository.findBy({ name: In(names) });
+  async findByIds(ids: string[]): Promise<Team[]> {
+    const entities = await this.repository.findBy({ id: In(ids) });
 
     return entities.map((entity) => new Team(entity));
   }

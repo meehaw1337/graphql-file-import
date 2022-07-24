@@ -12,7 +12,6 @@ import {
 import { Team } from '../../src/user/model/team.model';
 import { TeamEntity } from '../../src/user/model/entity/team.entity';
 
-
 describe('UserResolver E2E', () => {
   let app: INestApplication;
   let userRepository: Repository<UserEntity>;
@@ -38,7 +37,7 @@ describe('UserResolver E2E', () => {
       .post(gqlEndpoint)
       .send({
         query:
-          '{ users { firstName lastName email roleDescription team { name }}}',
+          '{ users { id firstName lastName email roleDescription team { id name }}}',
       })
       .expect(200)
       .expect((res) => {
