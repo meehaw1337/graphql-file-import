@@ -44,6 +44,7 @@ Production
 npm run start:prod
 ```
 
+You can access the GraphQL playground under `/graphql`.
 ### Testing
 After the test database is set up, run:
 
