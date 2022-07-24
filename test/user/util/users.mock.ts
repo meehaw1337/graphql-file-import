@@ -64,7 +64,7 @@ export function createMockUserEntities(): UserEntity[] {
 
 export const expectedUsersResponse = {
   data: {
-    users: [
+    users: expect.arrayContaining([
       {
         id: expect.any(String),
         firstName: 'Abbey',
@@ -106,13 +106,13 @@ export const expectedUsersResponse = {
         roleDescription: '',
         team: { name: 'Design', id: expect.any(String) },
       },
-    ],
+    ]),
   },
 };
 
 export const expectedTeamsResponse = {
   data: {
-    teams: [
+    teams: expect.arrayContaining([
       {
         id: expect.any(String),
         name: 'Developers',
@@ -161,6 +161,6 @@ export const expectedTeamsResponse = {
           },
         ],
       },
-    ],
+    ]),
   },
 };

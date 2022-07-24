@@ -1,4 +1,4 @@
-export const expectedSavedUserEntities = [
+export const expectedSavedUserEntities = expect.arrayContaining([
   {
     id: expect.any(String),
     firstName: 'Abbey',
@@ -60,9 +60,9 @@ export const expectedSavedUserEntities = [
       name: 'Developers',
     },
   },
-];
+]);
 
-export const expectedFailedToImportUsers = [
+export const expectedFailedToImportUsers = expect.arrayContaining([
   {
     firstName: 'Caitlyn',
     lastName: '',
@@ -79,4 +79,4 @@ export const expectedFailedToImportUsers = [
     team: 'Management',
     reasons: ['email must be an email'],
   },
-];
+]);
