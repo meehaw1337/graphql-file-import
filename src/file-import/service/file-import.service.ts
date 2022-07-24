@@ -18,9 +18,9 @@ export class FileImportService {
 
     let batch = [];
 
-    stream._write = async (csvUsers, _, next) => {
+    stream._write = async (csvUser, _, next) => {
       try {
-        const dto = await this.csvUserToUserDto(csvUsers);
+        const dto = await this.csvUserToUserDto(csvUser);
         batch.push(dto);
 
         if (batch.length === this.fileImportConfig.getBatchSize()) {
@@ -30,16 +30,16 @@ export class FileImportService {
       } catch (errors) {
         console.error(
           'Validation failed for the following record and it will not be inserted ',
-          csvUsers,
+          csvUser,
           errors.map((e) => e.constraints),
         );
       }
       next();
     };
 
-    stream.on('finish', async () => {
+    stream._final = async () => {
       await this.userService.createMany(batch);
-    });
+    };
 
     return stream;
   }

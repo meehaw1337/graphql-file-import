@@ -8,6 +8,7 @@ import { FileImportService } from '../service/file-import.service';
 @Resolver()
 export class FileImportResolver {
   constructor(private readonly service: FileImportService) {}
+
   @Mutation(() => Boolean)
   async importFile(
     @Args({ name: 'file', type: () => GraphQLUpload })

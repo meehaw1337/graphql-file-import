@@ -12,12 +12,12 @@ import {
 import { Team } from '../../src/user/model/team.model';
 import { TeamEntity } from '../../src/user/model/entity/team.entity';
 
-const gqlEndpoint = '/graphql';
 
 describe('TeamResolver E2E', () => {
   let app: INestApplication;
   let userRepository: Repository<UserEntity>;
   let teamRepository: Repository<Team>;
+  const gqlEndpoint = '/graphql';
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

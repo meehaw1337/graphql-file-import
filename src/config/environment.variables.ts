@@ -38,7 +38,6 @@ export class EnvironmentVariables {
   IMPORT_BATCH_SIZE = 1000;
 
   @IsBoolean()
-  @IsOptional()
   DEBUG = false;
 
   @IsEnum(Environment)
