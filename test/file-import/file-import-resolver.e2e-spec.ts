@@ -9,7 +9,10 @@ import { Team } from '../../src/user/model/team.model';
 import { TeamEntity } from '../../src/user/model/entity/team.entity';
 import { join } from 'path';
 import * as graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress';
-import { expectedSavedUserEntities } from './util/file-import.mock';
+import {
+  expectedFailedToImportUsers,
+  expectedSavedUserEntities,
+} from './util/file-import.mock';
 
 describe('FileImportResolver E2E', () => {
   let app: INestApplication;
@@ -17,7 +20,8 @@ describe('FileImportResolver E2E', () => {
   let teamRepository: Repository<Team>;
   const gqlEndpoint = '/graphql';
   const query = {
-    query: 'mutation ($file: Upload!) { importFile(file: $file) }',
+    query:
+      'mutation ($file: Upload!) { importFile(file: $file) { importedUsersCount, failedUsers { firstName, lastName, email, roleDescription, team, reasons } } }',
     variables: { file: null },
   };
 
@@ -43,7 +47,14 @@ describe('FileImportResolver E2E', () => {
       .field('operations', JSON.stringify(query))
       .field('map', JSON.stringify({ '0': ['variables.file'] }))
       .attach('0', file)
-      .expect(200);
+      .expect(200)
+      .expect((response) => {
+        const { importedUsersCount, failedUsers } =
+          response.body.data.importFile;
+
+        expect(importedUsersCount).toBe(5);
+        expect(failedUsers).toMatchObject(expectedFailedToImportUsers);
+      });
 
     const userEntities = await userRepository.find({ relations: ['team'] });
     expect(userEntities).toMatchObject(expectedSavedUserEntities);

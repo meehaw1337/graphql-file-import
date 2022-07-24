@@ -30,6 +30,7 @@ export class UserService {
     const entities = users.map((user) => {
       const entity = new UserEntity();
 
+      entity.id = generateUuid(user.email);
       entity.firstName = user.firstName;
       entity.lastName = user.lastName;
       entity.email = user.email;

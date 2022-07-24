@@ -17,13 +17,27 @@ type Team {
   users: [User!]!
 }
 
+type FailedUser {
+  firstName: String!
+  lastName: String!
+  email: String!
+  roleDescription: String!
+  team: String!
+  reasons: [String!]!
+}
+
+type ImportResult {
+  importedUsersCount: Float!
+  failedUsers: [FailedUser!]!
+}
+
 type Query {
   teams: [Team!]!
   users: [User!]!
 }
 
 type Mutation {
-  importFile(file: Upload!): Boolean!
+  importFile(file: Upload!): ImportResult!
 }
 
 """The `Upload` scalar type represents a file upload."""

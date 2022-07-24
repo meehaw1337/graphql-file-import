@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../../user/service/user.service';
-import { Stream, Writable } from 'stream';
+import { Duplex, Stream } from 'stream';
 import { CsvUserInterface } from '../model/interface/csv-user.interface';
 import { CreateUserDto } from '../../user/dto/create-user.dto';
 import { validateOrReject } from 'class-validator';
@@ -13,10 +13,11 @@ export class FileImportService {
     private readonly fileImportConfig: FileImportConfig,
   ) {}
 
-  importUsersStream(): Writable {
-    const stream = new Stream.Writable({ objectMode: true });
+  importUsersStream(): Duplex {
+    const stream = new Stream.Duplex({ objectMode: true });
 
     let batch = [];
+    let importedUsersCount = 0;
 
     stream._write = async (csvUser, _, next) => {
       try {
@@ -25,20 +26,25 @@ export class FileImportService {
 
         if (batch.length === this.fileImportConfig.getBatchSize()) {
           await this.userService.createMany(batch);
+          importedUsersCount += batch.length;
           batch = [];
         }
       } catch (errors) {
-        console.error(
-          'Validation failed for the following record and it will not be inserted ',
+        stream.push({
           csvUser,
-          errors.map((e) => e.constraints),
-        );
+          reasons: errors.map((e) => e.constraints),
+        });
       }
       next();
     };
 
+    stream._read = () => ({});
+
     stream._final = async () => {
+      importedUsersCount += batch.length;
+      stream.push({ importedUsersCount });
       await this.userService.createMany(batch);
+      stream.push(null);
     };
 
     return stream;

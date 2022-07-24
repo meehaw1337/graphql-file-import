@@ -61,3 +61,22 @@ export const expectedSavedUserEntities = [
     },
   },
 ];
+
+export const expectedFailedToImportUsers = [
+  {
+    firstName: 'Caitlyn',
+    lastName: '',
+    email: '',
+    roleDescription: '',
+    team: 'Design',
+    reasons: ['email must be an email', 'lastName should not be empty'],
+  },
+  {
+    firstName: 'Vladimir',
+    lastName: 'Vladimirovich',
+    email: '',
+    roleDescription: '',
+    team: 'Management',
+    reasons: ['email must be an email'],
+  },
+];
